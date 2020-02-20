@@ -30,7 +30,8 @@ function ga_rsa ()
 	if confirm "Enable GA for SSH RSA?"; then
 		if ! cat /etc/ssh/sshd_config | grep -q "keyboard-interactive"; then
 	    	echo -e "# Google auth\nAuthenticationMethods publickey,password publickey,keyboard-interactive" >> /etc/ssh/sshd_config
-	    	sed 's/^[^#]*auth       substack     password-auth/#&/' /etc/pam.d/sshd
+	    	sed -i 's/^[^#]*auth       substack     password-auth/#&/' /etc/pam.d/sshd
+	    	systemctl restart sshd.service
 		fi			
 	fi
 }
